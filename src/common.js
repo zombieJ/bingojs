@@ -1,0 +1,1 @@
+var BJ = new Object();
