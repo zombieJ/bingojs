@@ -1,1 +1,3 @@
-var BJ = new Object();
+var BJ = {
+	data: new Object(),
+};
