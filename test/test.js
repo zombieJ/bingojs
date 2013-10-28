@@ -112,6 +112,23 @@ test("remove", function() {
 
 test("removeAll", function() {
 	var list = new BJ.List([1, 2, 3, 4, 5]);
-	QUnit.ok(list.removeAll([2, 4]));console.log(list);
+	QUnit.ok(list.removeAll([2, 4]));
 	QUnit.ok(list.same([1, 3, 5]));
+});
+
+module("Set");
+test("same", function() {
+	var set = new BJ.Set([1, 2, 3]);
+	QUnit.ok(set.same([1, 2, 3]));
+	QUnit.ok(set.same([3, 1, 2]));
+	QUnit.ok(!set.same([1, 2]));
+	QUnit.ok(!set.same([1, 2, 3, 4]));
+});
+
+test("add", function() {
+	var set = new BJ.Set([1, 2, 3]);
+	QUnit.ok(set.add(4));
+	QUnit.ok(set.same([4, 2, 3, 1]));
+	QUnit.ok(!set.add(1));
+	QUnit.ok(set.same([1, 2, 3, 4]));
 });
