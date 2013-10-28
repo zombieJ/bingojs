@@ -55,6 +55,21 @@ test("each", function() {
 	QUnit.equal(sum, 6);
 });
 
+test("indexOf", function() {
+	var list = new BJ.List([1, 3, 5]);
+	QUnit.equal(list.indexOf("1"), -1);
+	QUnit.equal(list.indexOf(1), 0);
+	QUnit.equal(list.indexOf(3), 1);
+	QUnit.equal(list.indexOf(5), 2);
+
+	var list = new BJ.List([{a: 1}, {c: [1, 2]}]);
+	QUnit.equal(list.indexOf({a: 1}), 0);
+	QUnit.equal(list.indexOf({a: false}), -1);
+	QUnit.equal(list.indexOf({a: 1, b: 2}), -1);
+	QUnit.equal(list.indexOf({c: [1]}), 1);
+	QUnit.equal(list.indexOf({c: [1]}, true), -1);
+});
+
 test("contains", function() {
 	var list = new BJ.List([1, 3]);
 	QUnit.ok(list.contains(1));
@@ -68,4 +83,35 @@ test("contains", function() {
 	QUnit.ok(!list2.contains({a: 1}, true));
 	QUnit.ok(!list2.contains({a: 1, b: 2, c: 3}));
 	QUnit.ok(list2.contains({a: 3, d: 4}));
+});
+
+test("same", function() {
+	var list1 = new BJ.List([1, 2, 3]);
+	var list2 = new BJ.List([1, 2, 3]);
+	var list3 = new BJ.List([1, 2, 3, 4]);
+	var list4 = new BJ.List([1, 5, 3]);
+	QUnit.ok(list1.same(list2));
+	QUnit.ok(!list1.same(list3));
+	QUnit.ok(!list1.same(list4));
+});
+
+test("remove", function() {
+	var list = new BJ.List([1, 2, 3, 4, 5]);
+	QUnit.ok(list.remove(2));
+	QUnit.ok(list.same([1, 3, 4, 5]));
+	QUnit.ok(!list.same([1, 2, 3, 4, 5]));
+
+	var list2 = new BJ.List([{a: 1, b: 2}]);
+	QUnit.ok(list2.remove({a: 1}));
+	QUnit.ok(list2.same([]));
+	
+	var list3 = new BJ.List([{a: 1, b: 2}]);
+	QUnit.ok(!list3.remove({a: 1}, true));
+	QUnit.ok(list3.same([{a: 1, b: 2}]));
+});
+
+test("removeAll", function() {
+	var list = new BJ.List([1, 2, 3, 4, 5]);
+	QUnit.ok(list.removeAll([2, 4]));console.log(list);
+	QUnit.ok(list.same([1, 3, 5]));
 });
