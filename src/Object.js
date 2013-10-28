@@ -3,7 +3,11 @@ BJ.Object = function(object, clone) {
 		var cloner = new Object();
 		for(var i in obj) {
 			if (obj.hasOwnProperty(i)) {
-				cloner[i] = obj[i];
+				if(typeof obj[i] == "object") {
+					cloner[i] = __clone(obj[i]);
+				} else {
+					cloner[i] = obj[i];
+				}
 			}
 		}
 		return cloner;
