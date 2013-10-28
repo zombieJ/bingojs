@@ -10,6 +10,13 @@ test("equals", function() {
 	QUnit.ok(!obj1.equals(obj4));
 	QUnit.ok(!obj1.equals(obj5));
 	QUnit.ok(!obj3.equals(obj1));
+
+	var obj6 = new BJ.Object({a: 1, b: [1, 2], c: {a: "1", b: "5"}});
+	var obj7 = new BJ.Object({a: 1, b: [1, 2], c: {a: "1", b: "5"}});
+	var obj8 = new BJ.Object({a: 1, b: [1, 2], c: {a: "1", b: "5", c: false}});
+	QUnit.ok(obj6.equals(obj7));
+	QUnit.ok(obj6.equals(obj8));
+	QUnit.ok(!obj8.equals(obj6));
 });
 
 test("same", function() {
@@ -18,6 +25,12 @@ test("same", function() {
 	var obj3 = new BJ.Object({a: 1, c:6, b: 2});
 	QUnit.ok(obj1.same(obj2));
 	QUnit.ok(!obj1.same(obj3));
+
+	var obj4 = new BJ.Object({a: 1, c: [[1]]});
+	var obj5 = new BJ.Object({a: 1, c: [[1]]});
+	var obj6 = new BJ.Object({a: 1, c: [[1]], d: "3"});
+	QUnit.ok(obj4.same(obj5));
+	QUnit.ok(!obj4.same(obj6));
 });
 
 test("clone", function() {
@@ -50,9 +63,9 @@ test("contains", function() {
 	QUnit.ok(!list.contains("1"));
 
 	var list2 = new BJ.List([{a: 1, b: 2}, {a: 3, d: 4}]);
+	QUnit.ok(list2.contains({a: 1}));
 	QUnit.ok(list2.contains({a: 1, b: 2}));
+	QUnit.ok(!list2.contains({a: 1}, true));
 	QUnit.ok(!list2.contains({a: 1, b: 2, c: 3}));
 	QUnit.ok(list2.contains({a: 3, d: 4}));
-	
-	a = list2;
 });

@@ -15,10 +15,18 @@ BJ.Object = function(object, clone) {
 
 		var ret = true;
 		for(var i in obj1) {
-			if (obj1.hasOwnProperty(i) && typeof obj1[i] !== "function") {
-				if(obj1[i] !== obj2[i]) {
-					ret = false;
-					break;
+			var _type = typeof obj1[i];
+			if (obj1.hasOwnProperty(i) && _type !== "function") {
+				if(_type == "object") {
+					if(!__equals(obj1[i], obj2[i])) {
+						ret = false;
+						break;
+					}
+				} else {
+					if(obj1[i] !== obj2[i]) {
+						ret = false;
+						break;
+					}
 				}
 			}
 		}
@@ -26,10 +34,12 @@ BJ.Object = function(object, clone) {
 	}
 
 	var _obj;
-	if(object != null && clone === true) {
-		_obj = __clone(object);
-	} else if(object != null) {
-		_obj = object;
+	if(object != null) {
+		if(clone === true) {
+			_obj = __clone(object);
+		} else {
+			_obj = object;
+		}
 	} else {
 		_obj = new Object();
 	}
