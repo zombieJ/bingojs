@@ -41,6 +41,75 @@ test("clone", function() {
 	QUnit.equal(obj2.c, obj1.c);
 });
 
+module("Date");
+test("getTime", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri);
+	QUnit.equal(date.getTime(), dateOri.getTime());
+});
+
+test("getYear", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri);
+	QUnit.equal(date.getYear(), dateOri.getFullYear());
+});
+
+test("getMonth", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri);
+	QUnit.equal(date.getMonth(), dateOri.getMonth());
+});
+
+test("getDate", function() {
+	var dateOri = new Date(1383150030647);
+	var date = new BJ.Date(dateOri);
+	var date0 = new BJ.Date(dateOri, 0);
+	QUnit.equal(date.getDate(), dateOri.getDate());
+	QUnit.equal(date0.getDate(), dateOri.getDate() - 1);
+});
+
+test("getHours", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri);
+	var date0 = new BJ.Date(dateOri, 0);
+	QUnit.equal(date.getHours(), dateOri.getHours());console.log(date0.getHours());
+	QUnit.equal(date0.getHours(), (dateOri.getHours() + 16) % 24);
+});
+
+test("getMinutes", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri);
+	QUnit.equal(date.getMinutes(), dateOri.getMinutes());
+});
+
+test("getSeconds", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri);
+	QUnit.equal(date.getSeconds(), dateOri.getSeconds());
+});
+
+test("getMilliseconds", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri);
+	QUnit.equal(date.getMilliseconds(), dateOri.getMilliseconds());
+});
+
+test("setYear", function() {
+	var dateOri = new Date(1383150638739);
+	var date = new BJ.Date(dateOri, 0);
+	QUnit.equal(date.getYear(), 2013);
+	date.setYear(1998);
+	QUnit.equal(date.getYear(), 1998);
+});
+
+test("setHours", function() {
+	var dateOri = new Date(1383150638739);
+	var date = new BJ.Date(dateOri, 0);
+	QUnit.equal(date.getHours(), 16);
+	date.setHours(5);
+	QUnit.equal(date.getHours(), 5);
+});
+
 module("List");
 test("each", function() {
 	var list = new BJ.List();
@@ -114,6 +183,11 @@ test("removeAll", function() {
 	var list = new BJ.List([1, 2, 3, 4, 5]);
 	QUnit.ok(list.removeAll([2, 4]));
 	QUnit.ok(list.same([1, 3, 5]));
+});
+
+test("size", function() {
+	var list = new BJ.List([1, 2, 3, 4, 5]);
+	QUnit.equal(list.size(), 5);
 });
 
 module("Set");
