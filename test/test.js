@@ -48,6 +48,12 @@ test("getTime", function() {
 	QUnit.equal(date.getTime(), dateOri.getTime());
 });
 
+test("getTimeOffset", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri, 123);
+	QUnit.equal(date.getTimeOffset(), 123);
+});
+
 test("getYear", function() {
 	var dateOri = new Date();
 	var date = new BJ.Date(dateOri);
@@ -95,19 +101,119 @@ test("getMilliseconds", function() {
 });
 
 test("setYear", function() {
-	var dateOri = new Date(1383150638739);
+	var dateOri = new Date(1383230862836);
 	var date = new BJ.Date(dateOri, 0);
 	QUnit.equal(date.getYear(), 2013);
+	QUnit.equal(date.getMonth(), 9);
+	QUnit.equal(date.getDate(), 31);
+
 	date.setYear(1998);
 	QUnit.equal(date.getYear(), 1998);
+	QUnit.equal(date.getMonth(), 9);
+	QUnit.equal(date.getDate(), 31);
+
+	date.setYear(1997, 3);
+	QUnit.equal(date.getYear(), 1997);
+	QUnit.equal(date.getMonth(), 4);
+	QUnit.equal(date.getDate(), 1);
+
+	date.setYear(2011, 10, 5);
+	QUnit.equal(date.getYear(), 2011);
+	QUnit.equal(date.getMonth(), 10);
+	QUnit.equal(date.getDate(), 5);
+});
+
+test("setMonth", function() {
+	var dateOri = new Date(1383230862836);
+	var date = new BJ.Date(dateOri);
+
+	date.setMonth(2);
+	QUnit.equal(date.getYear(), 2013);
+	QUnit.equal(date.getMonth(), 2);
+	QUnit.equal(date.getDate(), 31);
+
+	date.setMonth(3, 1);
+	QUnit.equal(date.getYear(), 2013);
+	QUnit.equal(date.getMonth(), 3);
+	QUnit.equal(date.getDate(), 1);
+});
+
+test("setDate", function() {
+	var dateOri = new Date(1383230862836);
+	var date = new BJ.Date(dateOri);
+
+	date.setDate(4);
+	QUnit.equal(date.getYear(), 2013);
+	QUnit.equal(date.getMonth(), 9);
+	QUnit.equal(date.getDate(), 4);
+
+	date.setDate(0);
+	QUnit.equal(date.getYear(), 2013);
+	QUnit.equal(date.getMonth(), 8);
+	QUnit.equal(date.getDate(), 30);
 });
 
 test("setHours", function() {
-	var dateOri = new Date(1383150638739);
-	var date = new BJ.Date(dateOri, 0);
-	QUnit.equal(date.getHours(), 16);
+	var date = new BJ.Date();
 	date.setHours(5);
 	QUnit.equal(date.getHours(), 5);
+
+	date.setHours(7, 9);
+	QUnit.equal(date.getHours(), 7);
+	QUnit.equal(date.getMinutes(), 9);
+
+	date.setHours(8, 4, 3);
+	QUnit.equal(date.getHours(), 8);
+	QUnit.equal(date.getMinutes(), 4);
+	QUnit.equal(date.getSeconds(), 3);
+
+	date.setHours(5, 8, 1, 45);
+	QUnit.equal(date.getHours(), 5);
+	QUnit.equal(date.getMinutes(), 8);
+	QUnit.equal(date.getSeconds(), 1);
+	QUnit.equal(date.getMilliseconds(), 45);
+});
+
+test("setMinutes", function() {
+	var date = new BJ.Date();
+
+	date.setMinutes(56);
+	QUnit.equal(date.getMinutes(), 56);
+
+	date.setMinutes(12, 34);
+	QUnit.equal(date.getMinutes(), 12);
+	QUnit.equal(date.getSeconds(), 34);
+
+	date.setMinutes(7, 8, 53);
+	QUnit.equal(date.getMinutes(), 7);
+	QUnit.equal(date.getSeconds(), 8);
+	QUnit.equal(date.getMilliseconds(), 53);
+});
+
+test("setSeconds", function() {
+	var date = new BJ.Date();
+
+	date.setSeconds(43);
+	QUnit.equal(date.getSeconds(), 43);
+
+	date.setSeconds(24, 932);
+	QUnit.equal(date.getSeconds(), 24);
+	QUnit.equal(date.getMilliseconds(), 932);
+});
+
+test("setMilliseconds", function() {
+	var date = new BJ.Date();
+
+	date.setMilliseconds(153);
+	QUnit.equal(date.getMilliseconds(), 153);
+});
+
+test("setTime", function() {
+	var date = new BJ.Date(1383230862836);
+
+	QUnit.equal(date.getTime(), 1383230862836);
+	date.setTime(1383232932532);
+	QUnit.equal(date.getTime(), 1383232932532);
 });
 
 module("List");
