@@ -48,10 +48,10 @@ test("getTime", function() {
 	QUnit.equal(date.getTime(), dateOri.getTime());
 });
 
-test("getTimeOffset", function() {
+test("getTimezoneOffset", function() {
 	var dateOri = new Date();
 	var date = new BJ.Date(dateOri, 123);
-	QUnit.equal(date.getTimeOffset(), 123);
+	QUnit.equal(date.getTimezoneOffset(), 123);
 });
 
 test("getYear", function() {
@@ -74,11 +74,17 @@ test("getDate", function() {
 	QUnit.equal(date0.getDate(), dateOri.getDate() - 1);
 });
 
+test("getDay", function() {
+	var dateOri = new Date();
+	var date = new BJ.Date(dateOri);
+	QUnit.equal(date.getDay(), dateOri.getDay());
+});
+
 test("getHours", function() {
 	var dateOri = new Date();
 	var date = new BJ.Date(dateOri);
 	var date0 = new BJ.Date(dateOri, 0);
-	QUnit.equal(date.getHours(), dateOri.getHours());console.log(date0.getHours());
+	QUnit.equal(date.getHours(), dateOri.getHours());
 	QUnit.equal(date0.getHours(), (dateOri.getHours() + 16) % 24);
 });
 
@@ -214,6 +220,12 @@ test("setTime", function() {
 	QUnit.equal(date.getTime(), 1383230862836);
 	date.setTime(1383232932532);
 	QUnit.equal(date.getTime(), 1383232932532);
+});
+
+test("toString", function() {
+	var date = new BJ.Date(1383230862836);
+
+	QUnit.equal(date.toString("yyyy-MM-dd HH:mm:ss"), "2013-10-31 22:47:42");
 });
 
 module("List");

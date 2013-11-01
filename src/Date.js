@@ -48,8 +48,18 @@ BJ.Date = function(date, offset) {
 		return _date.getTime();
 	}
 
-	_obj.getTimeOffset = function() {
+	_obj.getTimezoneOffset = function() {
 		return _offset;
+	}
+
+	_obj.getTimezone = function() {
+		var _tz = _obj.toUTCString().match(/[A-Z]+$/);
+		var _os = _obj.getTimezoneOffset() / 36000;
+		if(_os < 0) {
+			return _tz + "+" + __fillZero(-_os + "", 4);
+		} else {
+			return _tz + "-" + __fillZero(_os + "", 4);
+		}
 	}
 
 	_obj.getYear = function() {
@@ -62,6 +72,10 @@ BJ.Date = function(date, offset) {
 
 	_obj.getDate = function() {
 		return _dateGen.getDate();
+	}
+
+	_obj.getDay = function() {
+		return _dateGen.getDay();
 	}
 
 	_obj.getHours = function() {
@@ -78,6 +92,10 @@ BJ.Date = function(date, offset) {
 
 	_obj.getMilliseconds = function() {
 		return _dateGen.getMilliseconds();
+	}
+
+	_obj.toUTCString = function() {
+		return _dateGen.toUTCString();
 	}
 
 	_obj.setYear = function(year, month, date) {
@@ -162,24 +180,62 @@ BJ.Date = function(date, offset) {
 			return _date.toString();
 		} else {
 			var _str = format;
-			_str = _str.replace(/d{6,}/g, "ddddd");
-			_str = _str.replace(/M{5,}/g, "MMMM");
-			_str = _str.replace(/(^|[^y])y{3}(?!y)/g, "$1yy");
-			_str = _str.replace(/y{5,}/g, "yyyy");
-			_str = _str.replace(/h{3,}/g, "hh");
-			_str = _str.replace(/H{3,}/g, "HH");
-			_str = _str.replace(/m{3,}/g, "mm");
-			_str = _str.replace(/s{3,}/g, "ss");
-			_str = _str.replace(/l{2,}/g, "l");
-			_str = _str.replace(/L{2,}/g, "L");
-			_str = _str.replace(/t{3,}/g, "tt");
-			_str = _str.replace(/T{3,}/g, "TT");
-			_str = _str.replace(/Z{2,}/g, "Z");
 
 			_str = _str.replace(/d+|M+|y+|h+|H+|m+|s+|l+|L+|t+|T+|Z+/g, function ($0) {
-				console.log($0);
+				switch($0) {
+				case "d":
+					return _obj.getDate();
+				case "dd":
+					return __fillZero(_obj.getDate());
+				case "ddd":
+					return ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'][_obj.getDay()];
+				case "dddd":
+					return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][_obj.getDay()];
+				case "M":
+					return _obj.getMonth() + 1;
+				case "MM":
+					return __fillZero(_obj.getMonth() + 1);
+				case "MMM":
+					return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][_obj.getMonth()];
+				case "MMMM":
+					return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][_obj.getMonth()];
+				case "yy":
+					return String(_obj.getYear()).substr(2);
+				case "yyyy":
+					return _obj.getYear();
+				case "h":
+					return _obj.getHours() % 12 || 12;
+				case "hh":
+					return __fillZero(_obj.getHours() % 12 || 12);
+				case "H":
+					return _obj.getHours();
+				case "HH":
+					return __fillZero(_obj.getHours());
+				case "m":
+					return _obj.getMinutes();
+				case "mm":
+					return __fillZero(_obj.getMinutes());
+				case "s":
+					return _obj.getSeconds();
+				case "ss":
+					return __fillZero(_obj.getSeconds());
+				case "l":
+					return __fillZero(_obj.getMilliseconds(), 3);
+				case "L":
+					var m = _obj.getMilliseconds();
+					if (m > 99) m = Math.round(m / 10);
+					return __fillZero(m);
+				case "tt":
+					return _obj.getHours() < 12 ? 'am' : 'pm';
+				case "TT":
+					return _obj.getHours() < 12 ? 'AM' : 'PM';
+				case "Z":
+					return _obj.getTimezone();
+				default:
+					return $0;
+				}
 			});
-			return null;
+			return _str;
 		}
 	}
 
