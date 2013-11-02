@@ -394,3 +394,40 @@ test("add", function() {
 	QUnit.ok(set.contains({hashCode: 2}));
 	QUnit.ok(set.contains({hashCode: 5}));
 });
+
+test("remove", function() {
+	var set = new BJ.HashSet([1, 2, 3]);
+	QUnit.ok(set.remove(1));
+	QUnit.ok(!set.remove(1));
+	QUnit.ok(!set.remove(5));
+	QUnit.ok(set.contains(2));
+	QUnit.ok(set.contains(3));
+	QUnit.equal(set.asList().length, 2);
+	QUnit.equal(set.size(), 2);
+});
+
+test("each", function() {
+	var set = new BJ.HashSet();
+	var num = 0;
+	var sum = 0;
+	set.add(2);
+	set.add(5);
+	set.add(7);
+	set.each(function(i, _number) {
+		num += 1;
+		sum += _number;
+	});
+	QUnit.equal(num, 3);
+	QUnit.equal(sum, 14);
+});
+
+test("find", function() {
+	var set = new BJ.HashSet([1, 2, 2, 4, 6]);
+	var lst = set.find(function(element) {
+		return element % 2 == 0;
+	});
+	QUnit.ok(lst.contains(2));
+	QUnit.ok(lst.contains(4));
+	QUnit.ok(lst.contains(6));
+	QUnit.equal(lst.length, 3);
+});
