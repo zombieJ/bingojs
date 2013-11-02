@@ -255,6 +255,10 @@ test("indexOf", function() {
 	QUnit.equal(list.indexOf({a: 1, b: 2}), -1);
 	QUnit.equal(list.indexOf({c: [1]}), 1);
 	QUnit.equal(list.indexOf({c: [1]}, true), -1);
+
+	var ele = {a: 123};
+	var list2 = new BJ.List([1, ele, 5]);
+	QUnit.equal(list2.indexOf(ele), 1);
 });
 
 test("contains", function() {
@@ -270,6 +274,20 @@ test("contains", function() {
 	QUnit.ok(!list2.contains({a: 1}, true));
 	QUnit.ok(!list2.contains({a: 1, b: 2, c: 3}));
 	QUnit.ok(list2.contains({a: 3, d: 4}));
+});
+
+test("find", function() {
+	var list = new BJ.List([1, 2, 3, 4, 5, 6, 7, 8]);
+	var list_ = list.find(function(element) {
+		return element % 2 == 0;
+	});
+	QUnit.ok(list_.same([2, 4, 6, 8]));
+});
+
+test("first", function() {
+	var list = new BJ.List([1, 2, 3, 4, 5, 6, 7, 8]);
+	QUnit.equal(list.first(function(element) {return element % 2 == 0;}), 2);
+	QUnit.equal(list.first(function(element) {return element % 9 == 0;}), null);
 });
 
 test("same", function() {
@@ -323,4 +341,56 @@ test("add", function() {
 	QUnit.ok(set.same([4, 2, 3, 1]));
 	QUnit.ok(!set.add(1));
 	QUnit.ok(set.same([1, 2, 3, 4]));
+});
+
+module("HashSet");
+test("contains", function() {
+	var set = new BJ.HashSet([2, 5, 7, false]);
+	QUnit.ok(set.contains(2));
+	QUnit.ok(set.contains(5));
+	QUnit.ok(set.contains(7));
+	QUnit.ok(set.contains(false));
+	QUnit.ok(!set.contains(9));
+	QUnit.ok(!set.contains(true));
+});
+
+test("add", function() {
+	var set;
+
+	// number
+	set = new BJ.HashSet();
+
+	set.add(2);
+	QUnit.ok(set.asList().same([2]));
+
+	set.add(7);
+	QUnit.ok(set.asList().contains(2));
+	QUnit.ok(set.asList().contains(7));
+	QUnit.equal(set.asList().length, 2);
+	QUnit.equal(set.size(), 2);
+
+	set.add(2);
+	QUnit.ok(set.asList().contains(2));
+	QUnit.ok(set.asList().contains(7));
+	QUnit.equal(set.asList().length, 2);
+	QUnit.equal(set.size(), 2);
+
+	set.add(9);
+	QUnit.ok(set.asList().contains(2));
+	QUnit.ok(set.asList().contains(7));
+	QUnit.ok(set.asList().contains(9));
+	QUnit.equal(set.asList().length, 3);
+	QUnit.equal(set.size(), 3);
+
+	// object
+	set = new BJ.HashSet();
+	set.add({hashCode: 1});
+	set.add({hashCode: 2});
+	set.add({hashCode: 5});
+	set.add({hashCode: 2});
+	QUnit.equal(set.asList().length, 3);
+	QUnit.equal(set.size(), 3);
+	QUnit.ok(set.contains({hashCode: 1}));
+	QUnit.ok(set.contains({hashCode: 2}));
+	QUnit.ok(set.contains({hashCode: 5}));
 });
