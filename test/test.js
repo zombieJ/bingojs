@@ -364,23 +364,44 @@ test("add", function() {
 	QUnit.ok(set.asList().same([2]));
 
 	set.add(7);
-	QUnit.ok(set.asList().contains(2));
-	QUnit.ok(set.asList().contains(7));
+	QUnit.ok(set.contains(2));
+	QUnit.ok(set.contains(7));
 	QUnit.equal(set.asList().length, 2);
 	QUnit.equal(set.size(), 2);
 
 	set.add(2);
-	QUnit.ok(set.asList().contains(2));
-	QUnit.ok(set.asList().contains(7));
+	QUnit.ok(set.contains(2));
+	QUnit.ok(set.contains(7));
 	QUnit.equal(set.asList().length, 2);
 	QUnit.equal(set.size(), 2);
 
 	set.add(9);
-	QUnit.ok(set.asList().contains(2));
-	QUnit.ok(set.asList().contains(7));
-	QUnit.ok(set.asList().contains(9));
+	QUnit.ok(set.contains(2));
+	QUnit.ok(set.contains(7));
+	QUnit.ok(set.contains(9));
 	QUnit.equal(set.asList().length, 3);
 	QUnit.equal(set.size(), 3);
+
+	// boolean
+	set.add(true);
+	set.add(true);
+	QUnit.ok(set.contains(2));
+	QUnit.ok(set.contains(7));
+	QUnit.ok(set.contains(9));
+	QUnit.ok(set.contains(true));
+	QUnit.equal(set.asList().length, 4);
+	QUnit.equal(set.size(), 4);
+
+	// string
+	set.add("string");
+	set.add("string");
+	QUnit.ok(set.contains(2));
+	QUnit.ok(set.contains(7));
+	QUnit.ok(set.contains(9));
+	QUnit.ok(set.contains(true));
+	QUnit.ok(set.contains("string"));
+	QUnit.equal(set.asList().length, 5);
+	QUnit.equal(set.size(), 5);
 
 	// object
 	set = new BJ.HashSet();
